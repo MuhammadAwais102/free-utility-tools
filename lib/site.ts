@@ -4,12 +4,12 @@ export type ToolDefinition = {
   slug: string;
   name: string;
   description: string;
-  category: "Image" | "PDF" | "Video";
+  category: "Image" | "PDF" | "Video" | "Career";
 };
 
 export const siteName = "Free Utility Tools";
 export const siteDescription =
-  "Free browser-based utility tools for images, PDFs, and YouTube thumbnails.";
+  "Free browser-based utility tools for images, PDFs, YouTube thumbnails, and quick document building.";
 
 export const navigationLinks = [
   { href: "/", label: "Home" },
@@ -72,6 +72,12 @@ export const tools: ToolDefinition[] = [
     name: "PDF to JPG",
     description: "Render PDF pages to downloadable JPG images with client-side processing.",
     category: "PDF",
+  },
+  {
+    slug: "cv-maker",
+    name: "CV Maker",
+    description: "Build a clean CV in your browser with live editing for profile, experience, education, skills, and projects.",
+    category: "Career",
   },
 ];
 
