@@ -4,12 +4,12 @@ export type ToolDefinition = {
   slug: string;
   name: string;
   description: string;
-  category: "Image" | "PDF" | "Video" | "Career" | "Animation";
+  category: "Image" | "PDF" | "Video" | "Career" | "Animation" | "Data";
 };
 
 export const siteName = "Free Utility Tools";
 export const siteDescription =
-  "Free browser-based utility tools for images, animations, PDFs, YouTube thumbnails, and quick document building.";
+  "Free browser-based utility tools for images, animations, data conversion, PDFs, YouTube thumbnails, and quick document building.";
 
 export const navigationLinks = [
   { href: "/", label: "Home" },
@@ -60,6 +60,24 @@ export const tools: ToolDefinition[] = [
     name: "GIF Converter",
     description: "Convert static images into GIF files or rebuild existing GIFs as new GIF output.",
     category: "Animation",
+  },
+  {
+    slug: "xml-prettify",
+    name: "XML Prettify",
+    description: "Format valid XML with readable indentation directly in your browser.",
+    category: "Data",
+  },
+  {
+    slug: "xml-to-json",
+    name: "XML to JSON Converter",
+    description: "Convert XML into a consistent JSON structure with attributes, text nodes, and arrays preserved.",
+    category: "Data",
+  },
+  {
+    slug: "json-to-xml",
+    name: "JSON to XML Converter",
+    description: "Convert JSON back into XML using the same structure rules for attributes, text nodes, and repeated elements.",
+    category: "Data",
   },
   {
     slug: "youtube-thumbnail-downloader",
