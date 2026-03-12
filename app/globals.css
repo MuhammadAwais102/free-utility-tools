@@ -1,21 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --color-background: #f3f7fb;
+  --color-background: #fafbfd;
   --color-foreground: #0f172a;
-  --color-muted-foreground: #475569;
-  --color-accent: #0f766e;
-  --color-accent-strong: #115e59;
-  --color-surface: #eef7f7;
-  --color-surface-strong: #d8f0ee;
-  --color-border: #dbe4ee;
-  --color-border-strong: #93c5c2;
+  --color-muted-foreground: #64748b;
+  --color-light-foreground: #94a3b8;
+  --color-accent: #0891b2;
+  --color-accent-strong: #0e7490;
+  --color-surface: #f4f6fa;
+  --color-surface-strong: #ecfeff;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 12px 40px rgba(15, 23, 42, 0.08);
+  --shadow-float: 0 20px 60px rgba(15, 23, 42, 0.1);
+  --shadow-accent: 0 6px 20px rgba(8, 145, 178, 0.3);
+  --shadow-accent-lg: 0 20px 60px rgba(8, 145, 178, 0.3);
 }
 
 @theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
-  --font-sans: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), "Segoe UI", sans-serif;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 * {
@@ -24,16 +48,20 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.16), transparent 26%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.18), transparent 18%),
-    linear-gradient(180deg, #f7fbff 0%, #f2f6fb 100%);
+    radial-gradient(circle at top left, rgba(8, 145, 178, 0.14), transparent 24%),
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 22%),
+    linear-gradient(180deg, #fafbfd 0%, #f5f8fc 100%);
   color: var(--color-foreground);
+  font-family: var(--font-inter), "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -42,6 +70,110 @@ a {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
+}
+
+.badge-image,
+.icon-bg-image {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.badge-animation,
+.icon-bg-animation {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.badge-data,
+.icon-bg-data {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.badge-video,
+.icon-bg-video {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.badge-pdf,
+.icon-bg-pdf {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.badge-career,
+.icon-bg-career {
+  background: #fff7ed;
+  color: #f97316;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0891b2, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cta-gradient {
+  background: linear-gradient(135deg, #0e7490, #0891b2, #06b6d4);
+}
+
+.tool-card-hover {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tool-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-border-strong);
+}
+
+.tool-card-hover:hover .tool-arrow-icon {
+  transform: translateX(4px);
+  color: var(--color-accent);
+}
+
+.cat-tab-active {
+  background: var(--color-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.25);
+}
+
+.cat-tab-active .cat-count-pill {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 6s ease-in-out 1.5s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 6s ease-in-out 3s infinite;
+}
+
+.animate-float-delay-3 {
+  animation: float 6s ease-in-out 4.5s infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s infinite;
 }

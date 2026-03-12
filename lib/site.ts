@@ -4,25 +4,64 @@ export type ToolDefinition = {
   slug: string;
   name: string;
   description: string;
-  category: "Image" | "PDF" | "Video" | "Career" | "Animation" | "Data";
+  category: ToolCategory;
 };
+
+export type ToolCategory =
+  | "Image"
+  | "PDF"
+  | "Video"
+  | "Career"
+  | "Animation"
+  | "Data";
+
+export type ToolCategoryKey =
+  | "all"
+  | "image"
+  | "pdf"
+  | "video"
+  | "career"
+  | "animation"
+  | "data";
 
 export const siteName = "Free Utility Tools";
 export const siteDescription =
   "Free browser-based utility tools for images, animations, data conversion, PDFs, YouTube thumbnails, and quick document building.";
 
 export const navigationLinks = [
-  { href: "/", label: "Home" },
   { href: "/#tools", label: "Tools" },
+  { href: "/#features", label: "Features" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
 export const footerLinks = [
+  { href: "/", label: "Home" },
+  { href: "/#tools", label: "Tools" },
+  { href: "/about", label: "About" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
   { href: "/contact", label: "Contact" },
 ];
+
+export const toolCategoryOrder: ToolCategory[] = [
+  "Image",
+  "Animation",
+  "Data",
+  "Video",
+  "PDF",
+  "Career",
+];
+
+export const toolCategoryLabels: Record<ToolCategoryKey, string> = {
+  all: "All",
+  image: "Image",
+  animation: "Animation",
+  data: "Data",
+  video: "Video",
+  pdf: "PDF",
+  career: "Career",
+};
 
 export const tools: ToolDefinition[] = [
   {
@@ -119,6 +158,26 @@ export const tools: ToolDefinition[] = [
 
 export function getToolBySlug(slug: string) {
   return tools.find((tool) => tool.slug === slug);
+}
+
+export function getCategoryKey(category: ToolCategory): Exclude<ToolCategoryKey, "all"> {
+  return category.toLowerCase() as Exclude<ToolCategoryKey, "all">;
+}
+
+export function getCategoryCount(category: ToolCategoryKey) {
+  if (category === "all") {
+    return tools.length;
+  }
+
+  return tools.filter((tool) => getCategoryKey(tool.category) === category).length;
+}
+
+export function getToolsByCategory(category: ToolCategoryKey) {
+  if (category === "all") {
+    return tools;
+  }
+
+  return tools.filter((tool) => getCategoryKey(tool.category) === category);
 }
 
 export function createToolMetadata(slug: string): Metadata {

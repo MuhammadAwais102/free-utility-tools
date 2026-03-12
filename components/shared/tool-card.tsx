@@ -1,22 +1,39 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
+import {
+  CategoryIconFrame,
+  ToolIcon,
+  getCategoryBadgeClass,
+} from "@/components/shared/tool-icon";
 import type { ToolDefinition } from "@/lib/site";
 
 export function ToolCard({ tool }: { tool: ToolDefinition }) {
   return (
-    <Link href={`/tools/${tool.slug}`} className="group block">
-      <Card className="h-full border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,251,255,0.94))] transition duration-200 group-hover:-translate-y-1 group-hover:shadow-[0_24px_70px_rgba(14,116,144,0.14)]">
-        <div className="flex items-start justify-between gap-4">
-          <span className="inline-flex rounded-full bg-[var(--color-surface-strong)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            {tool.category}
-          </span>
-          <span className="text-lg text-[var(--color-muted-foreground)] transition group-hover:translate-x-1 group-hover:text-[var(--color-accent)]">
-            →
-          </span>
-        </div>
-        <h3 className="mt-4 text-xl font-bold text-[var(--color-foreground)]">{tool.name}</h3>
-        <p className="mt-3 text-sm leading-6 text-[var(--color-muted-foreground)]">{tool.description}</p>
-      </Card>
+    <Link
+      href={`/tools/${tool.slug}`}
+      className="tool-card-hover group block rounded-3xl border border-[var(--color-border)] bg-white p-7 shadow-[var(--shadow-card)]"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span
+          className={`${getCategoryBadgeClass(tool.category)} inline-flex rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.06em]`}
+        >
+          {tool.category}
+        </span>
+        <span className="tool-arrow-icon text-[var(--color-light-foreground)] transition duration-200">
+          <ArrowRight className="h-5 w-5" />
+        </span>
+      </div>
+
+      <CategoryIconFrame category={tool.category} className="mt-5">
+        <ToolIcon tool={tool} className="h-6 w-6" />
+      </CategoryIconFrame>
+
+      <h3 className="mt-4 text-lg font-bold tracking-[-0.01em] text-[var(--color-foreground)]">
+        {tool.name}
+      </h3>
+      <p className="mt-2 text-sm leading-7 text-[var(--color-muted-foreground)]">
+        {tool.description}
+      </p>
     </Link>
   );
 }
