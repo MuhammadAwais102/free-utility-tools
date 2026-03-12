@@ -4,12 +4,12 @@ export type ToolDefinition = {
   slug: string;
   name: string;
   description: string;
-  category: "Image" | "PDF" | "Video" | "Career";
+  category: "Image" | "PDF" | "Video" | "Career" | "Animation";
 };
 
 export const siteName = "Free Utility Tools";
 export const siteDescription =
-  "Free browser-based utility tools for images, PDFs, YouTube thumbnails, and quick document building.";
+  "Free browser-based utility tools for images, animations, PDFs, YouTube thumbnails, and quick document building.";
 
 export const navigationLinks = [
   { href: "/", label: "Home" },
@@ -48,6 +48,18 @@ export const tools: ToolDefinition[] = [
     name: "Bulk Image Resizer",
     description: "Resize multiple images with one shared setting and download each browser-generated result.",
     category: "Image",
+  },
+  {
+    slug: "gif-resizer",
+    name: "GIF Resizer",
+    description: "Resize animated GIFs frame by frame, optionally crop them, and adjust playback speed honestly.",
+    category: "Animation",
+  },
+  {
+    slug: "gif-converter",
+    name: "GIF Converter",
+    description: "Convert static images into GIF files or rebuild existing GIFs as new GIF output.",
+    category: "Animation",
   },
   {
     slug: "youtube-thumbnail-downloader",
