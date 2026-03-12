@@ -1,20 +1,5 @@
 import { Card } from "@/components/ui/card";
-
-function formatLabel(type: string) {
-  if (type === "image/jpeg") {
-    return "JPG";
-  }
-
-  if (type === "image/png") {
-    return "PNG";
-  }
-
-  if (type === "image/webp") {
-    return "WebP";
-  }
-
-  return type;
-}
+import { getImageFormatLabel } from "@/lib/image/output-format";
 
 export function ImageConversionSummary({
   originalType,
@@ -30,7 +15,7 @@ export function ImageConversionSummary({
           Original format
         </p>
         <p className="mt-3 text-xl font-bold text-[var(--color-foreground)]">
-          {formatLabel(originalType)}
+          {getImageFormatLabel(originalType)}
         </p>
       </Card>
       <Card className="bg-white/95">
@@ -38,7 +23,7 @@ export function ImageConversionSummary({
           Output format
         </p>
         <p className="mt-3 text-xl font-bold text-[var(--color-foreground)]">
-          {formatLabel(outputType)}
+          {getImageFormatLabel(outputType)}
         </p>
       </Card>
     </div>

@@ -20,6 +20,8 @@ type ImageToolLayoutProps = {
   emptyTitle: string;
   emptyDescription: string;
   previewExtras?: ReactNode;
+  uploadAccept?: string;
+  uploadHelpText?: string;
 };
 
 export function ImageToolLayout({
@@ -33,13 +35,19 @@ export function ImageToolLayout({
   emptyTitle,
   emptyDescription,
   previewExtras,
+  uploadAccept,
+  uploadHelpText,
 }: ImageToolLayoutProps) {
   return (
     <div className="space-y-8">
       <PageHeader eyebrow="Image Tool" title={title} description={description} />
 
       <Card className="space-y-6">
-        <ImageUploadPanel onFilesChange={onFilesChange} />
+        <ImageUploadPanel
+          onFilesChange={onFilesChange}
+          accept={uploadAccept}
+          helpText={uploadHelpText}
+        />
         <ErrorMessage message={error} />
         {controls}
       </Card>

@@ -1,59 +1,106 @@
-import type { ImageFormat, ProcessedImageResult, ResizeMode } from "@/types/image";
+import {
+  ensureRasterOutputType,
+  exportCanvasResult,
+  loadImageElement,
+  validateSvgOutputEligibility,
+} from "@/lib/image/export-image";
+import { isSvgFormat } from "@/lib/image/output-format";
+import { exportResizedSvg } from "@/lib/image/svg";
+import type {
+  ImageOutputFormat,
+  ProcessedImageResult,
+  ResizeMode,
+  SelectedImage,
+} from "@/types/image";
 
-async function loadImage(file: File) {
-  const objectUrl = URL.createObjectURL(file);
+export function calculateTargetDimensions({
+  sourceWidth,
+  sourceHeight,
+  width,
+  height,
+  percentage,
+  mode,
+  keepAspectRatio,
+  noUpscale,
+}: {
+  sourceWidth: number;
+  sourceHeight: number;
+  width?: number;
+  height?: number;
+  percentage?: number;
+  mode: "dimensions" | "percentage";
+  keepAspectRatio: boolean;
+  noUpscale: boolean;
+}) {
+  let targetWidth = width ?? sourceWidth;
+  let targetHeight = height ?? sourceHeight;
 
-  try {
-    const image = new Image();
-    image.decoding = "async";
-    image.src = objectUrl;
+  if (mode === "percentage") {
+    const scale = (percentage ?? 100) / 100;
+    targetWidth = Math.max(1, Math.round(sourceWidth * scale));
+    targetHeight = Math.max(1, Math.round(sourceHeight * scale));
+  } else if (keepAspectRatio) {
+    const aspectRatio = sourceWidth / sourceHeight;
 
-    await new Promise<void>((resolve, reject) => {
-      image.onload = () => resolve();
-      image.onerror = () => reject(new Error(`Failed to load ${file.name}.`));
-    });
-
-    return image;
-  } finally {
-    URL.revokeObjectURL(objectUrl);
+    if (width && !height) {
+      targetHeight = Math.max(1, Math.round(width / aspectRatio));
+    } else if (!width && height) {
+      targetWidth = Math.max(1, Math.round(height * aspectRatio));
+    } else if (!width && !height) {
+      targetWidth = sourceWidth;
+      targetHeight = sourceHeight;
+    }
   }
-}
 
-async function canvasToBlob(canvas: HTMLCanvasElement, type: ImageFormat, quality?: number) {
-  return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("The browser could not export the image."));
-          return;
-        }
+  if (noUpscale) {
+    targetWidth = Math.min(targetWidth, sourceWidth);
+    targetHeight = Math.min(targetHeight, sourceHeight);
 
-        resolve(blob);
-      },
-      type,
-      quality,
-    );
-  });
+    if (keepAspectRatio && mode === "dimensions") {
+      const widthScale = targetWidth / sourceWidth;
+      const heightScale = targetHeight / sourceHeight;
+      const scale = Math.min(widthScale || 1, heightScale || 1, 1);
+      targetWidth = Math.max(1, Math.round(sourceWidth * scale));
+      targetHeight = Math.max(1, Math.round(sourceHeight * scale));
+    }
+  }
+
+  return {
+    width: Math.max(1, targetWidth),
+    height: Math.max(1, targetHeight),
+  };
 }
 
 export async function resizeImage({
-  file,
+  selectedImage,
   width,
   height,
   type,
   quality,
-  filename,
+  suffix,
   mode = "stretch",
 }: {
-  file: File;
+  selectedImage: SelectedImage;
   width: number;
   height: number;
-  type: ImageFormat;
+  type: ImageOutputFormat;
   quality?: number;
-  filename: string;
+  suffix?: string;
   mode?: ResizeMode;
 }): Promise<ProcessedImageResult> {
-  const image = await loadImage(file);
+  validateSvgOutputEligibility(selectedImage, type);
+
+  if (isSvgFormat(type)) {
+    return exportResizedSvg({
+      selectedImage,
+      width,
+      height,
+      suffix,
+    });
+  }
+
+  const rasterType = ensureRasterOutputType(type);
+  const image = await loadImageElement(selectedImage.file);
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -63,7 +110,7 @@ export async function resizeImage({
     throw new Error("Canvas is not available in this browser.");
   }
 
-  if (type === "image/jpeg") {
+  if (rasterType === "image/jpeg") {
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, width, height);
   } else {
@@ -89,28 +136,24 @@ export async function resizeImage({
         drawWidth = height * sourceRatio;
         offsetX = (width - drawWidth) / 2;
       }
+    } else if (sourceRatio > targetRatio) {
+      drawWidth = height * sourceRatio;
+      offsetX = (width - drawWidth) / 2;
     } else {
-      if (sourceRatio > targetRatio) {
-        drawWidth = height * sourceRatio;
-        offsetX = (width - drawWidth) / 2;
-      } else {
-        drawHeight = width / sourceRatio;
-        offsetY = (height - drawHeight) / 2;
-      }
+      drawHeight = width / sourceRatio;
+      offsetY = (height - drawHeight) / 2;
     }
 
     context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
   }
 
-  const blob = await canvasToBlob(canvas, type, quality);
-
-  return {
-    blob,
-    dataUrl: canvas.toDataURL(type, quality),
-    filename,
+  return exportCanvasResult({
+    canvas,
+    type: rasterType,
+    quality,
     width,
     height,
-    size: blob.size,
-    type: blob.type,
-  };
+    originalFilename: selectedImage.file.name,
+    suffix,
+  });
 }

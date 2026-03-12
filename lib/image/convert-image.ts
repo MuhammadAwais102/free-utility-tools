@@ -1,26 +1,45 @@
-import { getBaseName } from "@/lib/file";
 import { resizeImage } from "@/lib/image/resize-image";
-import type { ImageFormat, ProcessedImageResult, SelectedImage } from "@/types/image";
+import {
+  getDefaultOutputFormat,
+  isSvgFormat,
+} from "@/lib/image/output-format";
+import { exportOptimizedSvg, isSvgFile } from "@/lib/image/svg";
+import type { ImageOutputFormat, ProcessedImageResult, SelectedImage } from "@/types/image";
 
-const extensionMap: Record<ImageFormat, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-};
+export function getDefaultConverterOutputFormat(file: File): ImageOutputFormat {
+  return getDefaultOutputFormat(file);
+}
+
+export function canConvertToFormat(file: File, format: ImageOutputFormat) {
+  if (isSvgFormat(format)) {
+    return isSvgFile(file);
+  }
+
+  return true;
+}
 
 export async function convertImage({
   selectedImage,
   type,
 }: {
   selectedImage: SelectedImage;
-  type: ImageFormat;
+  type: ImageOutputFormat;
 }): Promise<ProcessedImageResult> {
+  if (!canConvertToFormat(selectedImage.file, type)) {
+    throw new Error("SVG output is only supported for uploaded SVG files.");
+  }
+
+  if (isSvgFormat(type)) {
+    return exportOptimizedSvg({
+      selectedImage,
+    });
+  }
+
   return resizeImage({
-    file: selectedImage.file,
+    selectedImage,
     width: selectedImage.width,
     height: selectedImage.height,
     type,
     quality: type === "image/png" ? undefined : 0.92,
-    filename: `${getBaseName(selectedImage.file.name)}.${extensionMap[type]}`,
   });
 }

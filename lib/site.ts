@@ -28,19 +28,25 @@ export const tools: ToolDefinition[] = [
   {
     slug: "image-resizer",
     name: "Image Resizer",
-    description: "Resize JPG, PNG, and WebP images directly in your browser.",
+    description: "Resize JPG, PNG, WebP, and SVG images with pixel, percentage, and output format controls.",
     category: "Image",
   },
   {
     slug: "image-compressor",
     name: "Image Compressor",
-    description: "Reduce image file size with adjustable quality controls.",
+    description: "Compress JPG, PNG, WebP, and SVG images with honest browser-side output handling.",
     category: "Image",
   },
   {
     slug: "image-converter",
     name: "Image Converter",
-    description: "Convert between JPG, PNG, and WebP without sending files away.",
+    description: "Convert between raster formats and handle SVG safely without sending files away.",
+    category: "Image",
+  },
+  {
+    slug: "bulk-image-resizer",
+    name: "Bulk Image Resizer",
+    description: "Resize multiple images with one shared setting and download each browser-generated result.",
     category: "Image",
   },
   {

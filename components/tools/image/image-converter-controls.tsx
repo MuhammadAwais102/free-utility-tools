@@ -1,20 +1,17 @@
 "use client";
 
+import { ImageFormatSelector } from "@/components/tools/image/image-format-selector";
 import { Button } from "@/components/ui/button";
-import type { ImageFormat } from "@/types/image";
-
-const outputOptions: Array<{ label: string; value: ImageFormat }> = [
-  { label: "JPG", value: "image/jpeg" },
-  { label: "PNG", value: "image/png" },
-  { label: "WebP", value: "image/webp" },
-];
+import type { ImageOutputFormat } from "@/types/image";
 
 type ImageConverterControlsProps = {
-  outputType: ImageFormat;
+  outputType: ImageOutputFormat;
   isProcessing: boolean;
   hasImage: boolean;
   hasResult: boolean;
-  onOutputTypeChange: (value: ImageFormat) => void;
+  svgOutputDisabled: boolean;
+  helperText?: string | null;
+  onOutputTypeChange: (value: ImageOutputFormat) => void;
   onProcess: () => void;
   onDownload: () => void;
   onReset: () => void;
@@ -25,6 +22,8 @@ export function ImageConverterControls({
   isProcessing,
   hasImage,
   hasResult,
+  svgOutputDisabled,
+  helperText,
   onOutputTypeChange,
   onProcess,
   onDownload,
@@ -34,26 +33,24 @@ export function ImageConverterControls({
     <div className="space-y-6 rounded-[28px] border border-[var(--color-border)] bg-white p-6">
       <div className="space-y-3">
         <p className="text-sm font-medium text-[var(--color-foreground)]">Output format</p>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {outputOptions.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => onOutputTypeChange(option.value)}
-              className={`rounded-2xl border px-4 py-4 text-left transition ${
-                outputType === option.value
-                  ? "border-[var(--color-accent)] bg-[var(--color-surface)]"
-                  : "border-[var(--color-border)] bg-white"
-              }`}
-            >
-              <p className="font-semibold text-[var(--color-foreground)]">{option.label}</p>
-              <p className="mt-2 text-sm text-[var(--color-muted-foreground)]">
-                Convert the uploaded image into {option.label}.
-              </p>
-            </button>
-          ))}
-        </div>
+        <ImageFormatSelector
+          value={outputType}
+          onChange={onOutputTypeChange}
+          disabledFormats={svgOutputDisabled ? ["image/svg+xml"] : []}
+          descriptions={{
+            "image/png": "Export as lossless PNG.",
+            "image/jpeg": "Export as JPG / JPEG.",
+            "image/webp": "Export as modern WebP.",
+            "image/svg+xml": "Only available for uploaded SVG files.",
+          }}
+        />
       </div>
+
+      {helperText ? (
+        <p className="rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm leading-6 text-[var(--color-muted-foreground)]">
+          {helperText}
+        </p>
+      ) : null}
 
       <div className="flex flex-wrap gap-3">
         <Button onClick={onProcess} disabled={!hasImage || isProcessing}>
