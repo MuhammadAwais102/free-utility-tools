@@ -21,13 +21,14 @@ export type ToolDefinition = {
   slug: string;
   href: `/tools/${string}`;
   name: string;
+  seoTitle: string;
   description: string;
   category: ToolCategory;
 };
 
 export const siteName = "Free Utility Tools";
 export const siteDescription =
-  "Free browser-based utility tools for images, animations, data conversion, PDFs, YouTube thumbnails, and quick document building.";
+  "15 free browser-based tools for resizing images, merging PDFs, converting files, building CVs, and more. No signup, no upload - everything runs in your browser.";
 
 export const siteConfig = {
   name: siteName,
@@ -75,6 +76,7 @@ export const tools: ToolDefinition[] = [
     slug: "image-resizer",
     href: "/tools/image-resizer",
     name: "Image Resizer",
+    seoTitle: "Free Image Resizer Online - Resize JPG, PNG, WebP | Free Utility Tools",
     description:
       "Resize JPG, PNG, WebP, and SVG images with pixel, percentage, and output format controls.",
     category: "Image",
@@ -83,6 +85,7 @@ export const tools: ToolDefinition[] = [
     slug: "image-compressor",
     href: "/tools/image-compressor",
     name: "Image Compressor",
+    seoTitle: "Free Image Compressor - Compress Images in Your Browser | Free Utility Tools",
     description:
       "Compress JPG, PNG, WebP, and SVG images with honest browser-side output handling.",
     category: "Image",
@@ -91,6 +94,7 @@ export const tools: ToolDefinition[] = [
     slug: "image-converter",
     href: "/tools/image-converter",
     name: "Image Converter",
+    seoTitle: "Free Image Converter - Convert Between PNG, JPG, WebP, SVG | Free Utility Tools",
     description:
       "Convert between raster formats and handle SVG safely without sending files away.",
     category: "Image",
@@ -99,6 +103,7 @@ export const tools: ToolDefinition[] = [
     slug: "bulk-image-resizer",
     href: "/tools/bulk-image-resizer",
     name: "Bulk Image Resizer",
+    seoTitle: "Free Bulk Image Resizer - Resize Multiple Images at Once | Free Utility Tools",
     description:
       "Resize multiple images with one shared setting and download each browser-generated result.",
     category: "Image",
@@ -107,6 +112,7 @@ export const tools: ToolDefinition[] = [
     slug: "gif-resizer",
     href: "/tools/gif-resizer",
     name: "GIF Resizer",
+    seoTitle: "Free GIF Resizer - Resize Animated GIFs Frame by Frame | Free Utility Tools",
     description:
       "Resize animated GIFs frame by frame, optionally crop them, and adjust playback speed honestly.",
     category: "Animation",
@@ -115,6 +121,7 @@ export const tools: ToolDefinition[] = [
     slug: "gif-converter",
     href: "/tools/gif-converter",
     name: "GIF Converter",
+    seoTitle: "Free GIF Converter - Convert Images to GIF | Free Utility Tools",
     description:
       "Convert static images into GIF files or rebuild existing GIFs as new GIF output.",
     category: "Animation",
@@ -123,6 +130,7 @@ export const tools: ToolDefinition[] = [
     slug: "xml-prettify",
     href: "/tools/xml-prettify",
     name: "XML Prettify",
+    seoTitle: "Free XML Prettifier - Format XML with Indentation | Free Utility Tools",
     description: "Format valid XML with readable indentation directly in your browser.",
     category: "Data",
   },
@@ -130,6 +138,7 @@ export const tools: ToolDefinition[] = [
     slug: "xml-to-json",
     href: "/tools/xml-to-json",
     name: "XML to JSON Converter",
+    seoTitle: "Free XML to JSON Converter - Transform XML to JSON Online | Free Utility Tools",
     description:
       "Convert XML into a consistent JSON structure with attributes, text nodes, and arrays preserved.",
     category: "Data",
@@ -138,6 +147,7 @@ export const tools: ToolDefinition[] = [
     slug: "json-to-xml",
     href: "/tools/json-to-xml",
     name: "JSON to XML Converter",
+    seoTitle: "Free JSON to XML Converter - Transform JSON to XML Online | Free Utility Tools",
     description:
       "Convert JSON back into XML using the same structure rules for attributes, text nodes, and repeated elements.",
     category: "Data",
@@ -146,6 +156,8 @@ export const tools: ToolDefinition[] = [
     slug: "youtube-thumbnail-downloader",
     href: "/tools/youtube-thumbnail-downloader",
     name: "YouTube Thumbnail Downloader",
+    seoTitle:
+      "Free YouTube Thumbnail Downloader - Grab Any Video Thumbnail | Free Utility Tools",
     description: "Grab the available YouTube thumbnail sizes from a public video URL.",
     category: "Video",
   },
@@ -153,6 +165,7 @@ export const tools: ToolDefinition[] = [
     slug: "pdf-merge",
     href: "/tools/pdf-merge",
     name: "PDF Merge",
+    seoTitle: "Free PDF Merge - Combine PDFs in Your Browser | Free Utility Tools",
     description: "Combine multiple PDFs into a single document in your browser.",
     category: "PDF",
   },
@@ -160,6 +173,7 @@ export const tools: ToolDefinition[] = [
     slug: "pdf-split",
     href: "/tools/pdf-split",
     name: "PDF Split",
+    seoTitle: "Free PDF Splitter - Split PDF Pages Online | Free Utility Tools",
     description: "Split each page of a PDF into separate downloadable files.",
     category: "PDF",
   },
@@ -167,6 +181,7 @@ export const tools: ToolDefinition[] = [
     slug: "jpg-to-pdf",
     href: "/tools/jpg-to-pdf",
     name: "JPG to PDF",
+    seoTitle: "Free JPG to PDF Converter - Turn Images Into PDF | Free Utility Tools",
     description: "Turn one or more images into a compact multi-page PDF.",
     category: "PDF",
   },
@@ -174,6 +189,7 @@ export const tools: ToolDefinition[] = [
     slug: "pdf-to-jpg",
     href: "/tools/pdf-to-jpg",
     name: "PDF to JPG",
+    seoTitle: "Free PDF to JPG Converter - Convert PDF Pages to Images | Free Utility Tools",
     description: "Render PDF pages to downloadable JPG images with client-side processing.",
     category: "PDF",
   },
@@ -181,6 +197,7 @@ export const tools: ToolDefinition[] = [
     slug: "cv-maker",
     href: "/tools/cv-maker",
     name: "CV Maker",
+    seoTitle: "Free CV Maker - Build Your Resume Online | Free Utility Tools",
     description:
       "Build a clean CV in your browser with live editing for profile, experience, education, skills, and projects.",
     category: "Career",
@@ -234,14 +251,19 @@ export function getRelatedTools(slug: string, limit = 3) {
 }
 
 export function createHomeMetadata(): Metadata {
+  const title =
+    "Free Online Tools - Image Resizer, PDF Merge, Converter & More | Free Utility Tools";
+
   return {
-    title: "Free Online Utility Tools",
+    title: {
+      absolute: title,
+    },
     description: siteDescription,
     alternates: {
       canonical: siteConfig.url,
     },
     openGraph: {
-      title: siteName,
+      title,
       description: siteDescription,
       url: siteConfig.url,
       siteName,
@@ -249,7 +271,7 @@ export function createHomeMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: siteName,
+      title,
       description: siteDescription,
     },
   };
@@ -297,13 +319,15 @@ export function createToolMetadata(slug: string): Metadata {
   const toolUrl = `${siteConfig.url}${tool.href}`;
 
   return {
-    title: tool.name,
+    title: {
+      absolute: tool.seoTitle,
+    },
     description: tool.description,
     alternates: {
       canonical: toolUrl,
     },
     openGraph: {
-      title: tool.name,
+      title: tool.seoTitle,
       description: tool.description,
       url: toolUrl,
       siteName,
@@ -311,7 +335,7 @@ export function createToolMetadata(slug: string): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: tool.name,
+      title: tool.seoTitle,
       description: tool.description,
     },
   };

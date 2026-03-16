@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, Copy } from "lucide-react";
 import { ErrorMessage } from "@/components/shared/error-message";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
@@ -81,9 +82,12 @@ export function DataToolClientShell({
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Button onClick={onAction}>{isWorking ? "Working..." : actionLabel}</Button>
+          <Button onClick={onAction} disabled={isWorking}>
+            {isWorking ? "Working..." : actionLabel}
+          </Button>
           <Button variant="secondary" onClick={onCopy} disabled={!outputValue}>
-            {copied ? "Copied" : copyLabel}
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? "Copied!" : copyLabel}
           </Button>
           <Button variant="ghost" onClick={onClear}>
             Clear

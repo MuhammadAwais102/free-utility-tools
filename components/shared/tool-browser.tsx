@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CategoryIcon } from "@/components/shared/tool-icon";
 import { ToolCard } from "@/components/shared/tool-card";
@@ -61,8 +61,18 @@ export function ToolBrowser({ tools }: { tools: ToolDefinition[] }) {
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search tools..."
             aria-label="Search tools"
-            className="bg-[var(--color-surface)] pl-11"
+            className="bg-[var(--color-surface)] pl-11 pr-11"
           />
+          {query ? (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label="Clear search"
+              className="absolute right-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[var(--color-light-foreground)] transition hover:bg-white hover:text-[var(--color-foreground)]"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -79,7 +89,10 @@ export function ToolBrowser({ tools }: { tools: ToolDefinition[] }) {
           return (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                setActiveCategory(category);
+                setQuery("");
+              }}
               className={cn(
                 "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--color-border)] bg-white px-4 py-2 text-[13px] font-semibold text-[var(--color-muted-foreground)] transition hover:border-[var(--color-border-strong)] hover:text-[var(--color-foreground)]",
                 isActive && "cat-tab-active",
@@ -108,7 +121,7 @@ export function ToolBrowser({ tools }: { tools: ToolDefinition[] }) {
         </div>
       ) : (
         <EmptyState
-          title="No tools match this search"
+          title="No tools found"
           description="Try a broader keyword or switch back to All to see the full tool collection."
         />
       )}

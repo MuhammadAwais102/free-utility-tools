@@ -33,6 +33,7 @@ export function BulkImageResizerClient() {
   const [noUpscale, setNoUpscale] = useState(false);
   const [outputFormat, setOutputFormat] = useState<RasterImageFormat>("image/jpeg");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingIndex, setProcessingIndex] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const imagesRef = useRef<SelectedImage[]>([]);
 
@@ -91,11 +92,13 @@ export function BulkImageResizerClient() {
 
     try {
       setIsProcessing(true);
+      setProcessingIndex(0);
       setError(null);
       const nextResults: BulkImageResizeResult[] = [];
 
-      for (const image of images) {
+      for (const [index, image] of images.entries()) {
         try {
+          setProcessingIndex(index + 1);
           const target = calculateTargetDimensions({
             sourceWidth: image.width,
             sourceHeight: image.height,
@@ -136,6 +139,7 @@ export function BulkImageResizerClient() {
       setResults(nextResults);
     } finally {
       setIsProcessing(false);
+      setProcessingIndex(null);
     }
   }
 
@@ -192,6 +196,11 @@ export function BulkImageResizerClient() {
           noUpscale={noUpscale}
           outputFormat={outputFormat}
           helperText={helperText}
+          progressLabel={
+            isProcessing && processingIndex !== null
+              ? `Processing ${processingIndex} of ${images.length}...`
+              : null
+          }
           isProcessing={isProcessing}
           hasFiles={images.length > 0}
           hasResults={successfulResults.length > 0}

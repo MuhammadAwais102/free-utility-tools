@@ -53,7 +53,7 @@ export function Footer() {
 
       <div className="mx-auto mt-12 max-w-[1200px] border-t border-[var(--color-border)] py-5">
         <p className="text-[13px] text-[var(--color-light-foreground)]">
-          Copyright 2026 {siteName}. All rights reserved.
+          Copyright {new Date().getFullYear()} {siteName}. All rights reserved.
         </p>
       </div>
     </footer>

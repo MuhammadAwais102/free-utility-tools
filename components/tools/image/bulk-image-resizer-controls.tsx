@@ -15,6 +15,7 @@ type BulkImageResizerControlsProps = {
   noUpscale: boolean;
   outputFormat: RasterImageFormat;
   helperText?: string | null;
+  progressLabel?: string | null;
   isProcessing: boolean;
   hasFiles: boolean;
   hasResults: boolean;
@@ -39,6 +40,7 @@ export function BulkImageResizerControls({
   noUpscale,
   outputFormat,
   helperText,
+  progressLabel,
   isProcessing,
   hasFiles,
   hasResults,
@@ -125,6 +127,12 @@ export function BulkImageResizerControls({
       {helperText ? (
         <p className="rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm leading-6 text-[var(--color-muted-foreground)]">
           {helperText}
+        </p>
+      ) : null}
+
+      {progressLabel ? (
+        <p className="rounded-2xl border border-[var(--color-border)] bg-white px-4 py-3 text-sm font-medium text-[var(--color-foreground)]">
+          {progressLabel}
         </p>
       ) : null}
 
