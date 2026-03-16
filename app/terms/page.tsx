@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card } from "@/components/ui/card";
+import { createStaticPageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = createStaticPageMetadata({
+  title: "Terms",
+  description:
+    "Read the current terms and deployment notes for using Free Utility Tools.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

@@ -1,8 +1,13 @@
-import { createToolMetadata } from "@/lib/site";
 import { ImageResizerClient } from "@/components/tools/image/image-resizer-client";
+import { ToolPageShell } from "@/components/shared/tool-page-shell";
+import { createToolMetadata } from "@/lib/site";
 
 export const metadata = createToolMetadata("image-resizer");
 
 export default function ImageResizerPage() {
-  return <ImageResizerClient />;
+  return (
+    <ToolPageShell slug="image-resizer">
+      <ImageResizerClient />
+    </ToolPageShell>
+  );
 }

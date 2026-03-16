@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { CvBasicsForm } from "@/components/tools/cv/cv-basics-form";
@@ -31,6 +31,8 @@ import type {
   SkillEntry,
 } from "@/types/cv";
 
+const CV_DRAFT_KEY = "cv-maker-draft";
+
 type CvListSection = "experience" | "education" | "projects" | "skills";
 type CvSectionMap = {
   experience: ExperienceEntry;
@@ -41,6 +43,60 @@ type CvSectionMap = {
 
 export function CvMakerClient() {
   const [document, setDocument] = useState<CvDocument>(createEmptyCvDocument);
+  const [restoredDraft, setRestoredDraft] = useState(false);
+  const skipNextDraftSave = useRef(false);
+
+  useEffect(() => {
+    try {
+      const savedDraft = window.localStorage.getItem(CV_DRAFT_KEY);
+
+      if (!savedDraft) {
+        return;
+      }
+
+      const parsedDraft = JSON.parse(savedDraft) as CvDocument;
+      const frameId = window.requestAnimationFrame(() => {
+        setDocument(parsedDraft);
+        setRestoredDraft(true);
+      });
+
+      return () => window.cancelAnimationFrame(frameId);
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (skipNextDraftSave.current) {
+      skipNextDraftSave.current = false;
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(CV_DRAFT_KEY, JSON.stringify(document));
+      } catch {
+        // Ignore storage failures in restricted/private browsing contexts.
+      }
+    }, 500);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [document]);
+
+  function resetDocument() {
+    setDocument(createEmptyCvDocument());
+    setRestoredDraft(false);
+  }
+
+  function clearDraft() {
+    skipNextDraftSave.current = true;
+
+    try {
+      window.localStorage.removeItem(CV_DRAFT_KEY);
+    } catch {
+      // Ignore storage failures in restricted/private browsing contexts.
+    }
+
+    resetDocument();
+  }
 
   function updateProfile<K extends keyof CvProfile>(field: K, value: CvProfile[K]) {
     setDocument((currentDocument) => ({
@@ -104,12 +160,24 @@ export function CvMakerClient() {
         actions={
           <div className="flex flex-wrap gap-3" data-cv-screen-only>
             <Button onClick={printCvDocument}>Print / Save as PDF</Button>
-            <Button variant="secondary" onClick={() => setDocument(createEmptyCvDocument())}>
+            <Button variant="secondary" onClick={resetDocument}>
               Reset CV
+            </Button>
+            <Button variant="ghost" onClick={clearDraft}>
+              Clear draft
             </Button>
           </div>
         }
       />
+
+      {restoredDraft ? (
+        <div
+          className="w-fit rounded-full border border-[var(--color-border)] bg-white px-4 py-2 text-sm text-[var(--color-muted-foreground)] shadow-[var(--shadow-card)]"
+          data-cv-screen-only
+        >
+          Draft restored from your last session
+        </div>
+      ) : null}
 
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
         <div className="space-y-6" data-cv-form>

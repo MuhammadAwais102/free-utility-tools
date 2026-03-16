@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card } from "@/components/ui/card";
+import { createStaticPageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = createStaticPageMetadata({
+  title: "About",
+  description:
+    "Learn about the browser-first architecture and design approach behind Free Utility Tools.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

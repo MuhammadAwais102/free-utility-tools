@@ -71,6 +71,7 @@ export function ToolBrowser({ tools }: { tools: ToolDefinition[] }) {
           const isActive = activeCategory === category;
           const count = getCategoryCount(category);
           const label = toolCategoryLabels[category];
+          const countLabel = `${formatNumber(count)} ${count === 1 ? "tool" : "tools"}`;
           const categoryName = category === "all" ? null : toolCategoryOrder.find(
             (item) => getCategoryKey(item) === category,
           );
@@ -88,11 +89,11 @@ export function ToolBrowser({ tools }: { tools: ToolDefinition[] }) {
               {label}
               <span
                 className={cn(
-                  "cat-count-pill rounded-full bg-[var(--color-surface)] px-1.5 py-px text-[11px] text-[var(--color-muted-foreground)]",
+                  "cat-count-pill rounded-full bg-[var(--color-surface)] px-2 py-px text-[11px] text-[var(--color-muted-foreground)]",
                   isActive && "bg-white/20 text-white",
                 )}
               >
-                {formatNumber(count)}
+                {countLabel}
               </span>
             </button>
           );

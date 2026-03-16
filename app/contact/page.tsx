@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card } from "@/components/ui/card";
+import { createStaticPageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = createStaticPageMetadata({
+  title: "Contact",
+  description:
+    "Get support details and contact information for Free Utility Tools.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

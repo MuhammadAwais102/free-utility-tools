@@ -10,7 +10,7 @@ import type { ToolDefinition } from "@/lib/site";
 export function ToolCard({ tool }: { tool: ToolDefinition }) {
   return (
     <Link
-      href={`/tools/${tool.slug}`}
+      href={tool.href}
       className="tool-card-hover group block rounded-3xl border border-[var(--color-border)] bg-white p-7 shadow-[var(--shadow-card)]"
     >
       <div className="flex items-center justify-between gap-4">

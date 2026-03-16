@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card } from "@/components/ui/card";
+import { createStaticPageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = createStaticPageMetadata({
+  title: "Privacy",
+  description:
+    "Review the privacy approach for Free Utility Tools and the browser-first handling used by most tools.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

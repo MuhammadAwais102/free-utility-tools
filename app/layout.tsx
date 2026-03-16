@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
-import { siteDescription, siteName } from "@/lib/site";
+import { siteConfig, siteDescription, siteName } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     default: siteName,
     template: `%s | ${siteName}`,
   },
+  metadataBase: new URL(siteConfig.url),
   description: siteDescription,
   applicationName: siteName,
   icons: {
