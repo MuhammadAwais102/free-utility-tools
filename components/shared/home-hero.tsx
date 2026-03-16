@@ -66,23 +66,27 @@ export function HomeHero() {
         </div>
 
         <div className="grid max-w-[420px] grid-cols-2 gap-4 max-lg:mx-auto">
-          {featuredCategories.map((category, index) => (
-            <Link
-              key={category}
-              href="/#tools"
-              className={`${heroCardAnimationClasses[index]} rounded-3xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-1 hover:shadow-[var(--shadow-float)]`}
-            >
-              <CategoryIconFrame category={category}>
-                <CategoryIcon category={category} className="h-6 w-6" />
-              </CategoryIconFrame>
-              <p className="mt-3.5 text-[15px] font-bold text-[var(--color-foreground)]">
-                {toolCategoryLabels[getCategoryKey(category)]} Tools
-              </p>
-              <p className="mt-1 text-[13px] text-[var(--color-muted-foreground)]">
-                {formatNumber(getCategoryCount(getCategoryKey(category)))} tools
-              </p>
-            </Link>
-          ))}
+          {featuredCategories.map((category, index) => {
+            const count = getCategoryCount(getCategoryKey(category));
+
+            return (
+              <Link
+                key={category}
+                href="/#tools"
+                className={`${heroCardAnimationClasses[index]} rounded-3xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-1 hover:shadow-[var(--shadow-float)]`}
+              >
+                <CategoryIconFrame category={category}>
+                  <CategoryIcon category={category} className="h-6 w-6" />
+                </CategoryIconFrame>
+                <p className="mt-3.5 text-[15px] font-bold text-[var(--color-foreground)]">
+                  {toolCategoryLabels[getCategoryKey(category)]} Tools
+                </p>
+                <p className="mt-1 text-[13px] text-[var(--color-muted-foreground)]">
+                  {formatNumber(count)} {count === 1 ? "tool" : "tools"}
+                </p>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
