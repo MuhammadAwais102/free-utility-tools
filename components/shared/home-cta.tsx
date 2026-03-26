@@ -16,7 +16,7 @@ export function HomeCta() {
         </p>
         <Link
           href="/#tools"
-          className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white px-8 py-4 text-base font-semibold text-[var(--color-accent-strong)] shadow-lg transition hover:-translate-y-0.5 hover:bg-cyan-50 hover:text-[var(--color-accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-cyan-700"
+          className="button-light-solid mt-7 inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold shadow-lg transition hover:-translate-y-0.5"
         >
           Browse All {formatNumber(getCategoryCount("all"))} Tools
           <ArrowRight className="h-4 w-4" />

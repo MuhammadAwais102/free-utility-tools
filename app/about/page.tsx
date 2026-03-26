@@ -6,7 +6,7 @@ import { createStaticPageMetadata } from "@/lib/site";
 export const metadata: Metadata = createStaticPageMetadata({
   title: "About",
   description:
-    "Learn about the browser-first architecture and design approach behind Free Utility Tools.",
+    "Learn how Free Utility Tools is built for speed, privacy, and practical everyday work.",
   path: "/about",
 });
 
@@ -14,16 +14,59 @@ export default function AboutPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="About"
-        title="A lean utility tools foundation for future expansion."
-        description="This project starts with practical browser-first utilities and a reusable structure that is easy to develop locally and easy to deploy later."
+        eyebrow="ABOUT"
+        title="Free utility tools built for speed, privacy, and real work."
+        description="Free Utility Tools is a browser-first platform designed to help everyday users and businesses complete useful tasks quickly, without ads, accounts, or unnecessary friction."
       />
-      <Card className="space-y-4">
+
+      <Card className="space-y-5">
         <p className="leading-7 text-[var(--color-muted-foreground)]">
-          The codebase is organized around reusable UI, focused helper modules, and small route pages so new tools can be added without turning the app into a monolith.
+          Most people waste time on repetitive digital tasks that should take seconds,
+          not minutes. This platform is built to solve that with practical tools that
+          are simple, fast, and easy to trust.
         </p>
         <p className="leading-7 text-[var(--color-muted-foreground)]">
-          Image and PDF workflows are intentionally handled on the client wherever possible to reduce server complexity and keep private files on the user&apos;s device.
+          What makes Free Utility Tools different is the focus on privacy and
+          accessibility. The tools are free to use, designed to stay lightweight, and
+          built so users can get work done without giving up their data.
+        </p>
+      </Card>
+
+      <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <Card className="space-y-5">
+          <h2 className="text-xl font-bold text-[var(--color-foreground)]">
+            The goal is straightforward
+          </h2>
+          <ul className="space-y-3 text-[var(--color-muted-foreground)]">
+            <li>Provide useful tools that solve real everyday problems.</li>
+            <li>Keep the experience clean and professional.</li>
+            <li>Avoid unnecessary complexity, ads, and data collection.</li>
+            <li>Make privacy-first processing the default whenever possible.</li>
+          </ul>
+        </Card>
+
+        <Card className="space-y-5">
+          <h2 className="text-xl font-bold text-[var(--color-foreground)]">
+            Who it is for
+          </h2>
+          <p className="leading-7 text-[var(--color-muted-foreground)]">
+            The platform is useful for both everyday users and businesses. Whether
+            someone needs to resize images, work with PDFs, format structured data, or
+            use utility workflows that save time, the experience should feel fast,
+            reliable, and practical.
+          </p>
+        </Card>
+      </div>
+
+      <Card className="space-y-4">
+        <h2 className="text-xl font-bold text-[var(--color-foreground)]">
+          Built with a broader efficiency mindset
+        </h2>
+        <p className="leading-7 text-[var(--color-muted-foreground)]">
+          This project is also shaped by a broader focus on automation and efficiency.
+          The same mindset behind AI automation systems, workflow design, and business
+          process optimization also drives this platform: remove repetitive work,
+          simplify operations, and create tools that genuinely save time.
         </p>
       </Card>
     </div>
